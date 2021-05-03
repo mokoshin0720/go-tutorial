@@ -1,22 +1,27 @@
 package main
 
 import (
-    "encoding/json"
-    "fmt"
-    "log"
-    "net/http"
+	"encoding/json"
+	"log"
+	"net/http"
 )
 
 type Sample struct {
-	Message string `json: "message"`
+	Message string `json:"message"`
 }
 
 func homePage(w http.ResponseWriter, r *http.Request) {
 	sample := Sample{Message: "hello"}
-	json.NewEncoder(w).Encode(sample)
+	
+    res, err := json.Marshal(sample)
 
-    fmt.Fprintf(w, "Welcome to the HomePage!")
-    fmt.Println("Endpoint Hit: homePage")
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+
+    w.Header().Set("Content-Type", "application/json")
+    w.Write(res)
 }
 
 func handleRequests() {
