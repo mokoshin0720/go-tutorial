@@ -17,15 +17,15 @@ type Sample struct {
 	Message string `json: "message"`
 }
 
-func gormConnect() *gorm.DB {
-	dsn := "host=localhost user=postgres password=shinya dbname=gorm port=5432 sslmode=disable"
-	db, err := gorm.Open("postgres", dsn)
+func GormConnect() *gorm.DB {
+	dsn := "host=localhost user=shinya password=shinya dbname=user_signup port=5432 sslmode=disable"
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	log.Println("postgresqlと接続")
 
 	if err != nil {
 		log.Fatal(err)
 	}
 	
-	defer db.Close()
+	// defer db.Close()
 	return db
 }

@@ -14,7 +14,7 @@ func HandleRequests() http.Handler {
 	r.Use(middleware.Logger)
 	
 	r.Get("/", controller.Index)
-	r.Post("/create", controller.Create)
+	r.Get("/create", controller.Create)
 
 	return r
 }

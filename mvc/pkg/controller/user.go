@@ -18,5 +18,10 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 func Create(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Postの処理を書いていくよ")
-	
+	db := model.GormConnect()
+	user := model.User{Name: "shinya"}
+	db.Create(&user)
+	// defer db.Close()
+	fmt.Println(user.Name)
+	fmt.Fprintf(w, "いけるかな...")
 }
