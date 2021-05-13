@@ -2,23 +2,19 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
-
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-)
 
-func some(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "これで完璧？")
-    fmt.Println("Endpoint Hit: homePage")
-}
+	"net/http"
+	"tutorial/mvc/pkg/controller"
+)
 
 func HandleRequests() http.Handler {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	
-	r.Get("/", some)
+	r.Get("/", controller.Index)
+	r.Post("/create", controller.Create)
 
 	return r
 }

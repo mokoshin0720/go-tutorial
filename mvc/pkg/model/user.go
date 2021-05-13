@@ -1,28 +1,31 @@
 // gormに依存するstruct
-
 package model
 
 import (
-	"database/sql"
+	"gorm.io/driver/postgres"
+	// "github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 	"log"
-
-	_ "github.com/go-sql-driver/mysql"
-
-	"time"
 )
 
 type User struct {
-	ID        int       `gorm:"primary_key" "column:id"`
-	Name      string    `gorm:"column:name"`
-	CreatedAt time.Time `gorm:"column:createdat"`
+	gorm.Model // ID(プライマリキー), CreatedAt, UpdatedAt, DeletedAtをもつ
+	Name string `gorm:"column:name"`
 }
 
-func main() {
-	db, err := sql.Open("mysql",  "root@/sample?charset=utf8&parseTime=True&loc=Local")
-	log.Println("mysqlと接続")
+type Sample struct {
+	Message string `json: "message"`
+}
+
+func gormConnect() *gorm.DB {
+	dsn := "host=localhost user=postgres password=shinya dbname=gorm port=5432 sslmode=disable"
+	db, err := gorm.Open("postgres", dsn)
+	log.Println("postgresqlと接続")
 
 	if err != nil {
 		log.Fatal(err)
 	}
+	
 	defer db.Close()
+	return db
 }
