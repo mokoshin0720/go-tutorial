@@ -1,0 +1,1 @@
+// jsonに変換できるstruct
